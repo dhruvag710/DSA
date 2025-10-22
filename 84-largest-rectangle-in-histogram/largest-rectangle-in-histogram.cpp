@@ -26,11 +26,11 @@ public:
             st.push(i);
         }
 
-        int ans=0;
+        long long ans=0;
 
         for(int i=0;i<n;i++)
         {
-            int width=right[i]-left[i]-1;
+            long long width=right[i]-left[i]-1;
             ans=max(ans,width*heights[i]);
         }
         return ans;

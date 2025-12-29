@@ -1,23 +1,23 @@
 class Solution {
 public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> ans;
-        int n=nums.size();
-        int subsets=1<<n;
+    vector<vector<int>> ans;
 
-        for(int i=0;i<subsets;i++)
-        {
-            vector<int> list;
-
-            for(int j=0;j<n;j++)
-            {
-                if(i & (1<<j))
-                {
-                    list.push_back(nums[j]);
-                }
-            }
-            ans.push_back(list);
+    void helper(int idx, vector<int>& nums, vector<int>& curr) {
+        if (idx == nums.size()) {
+            ans.push_back(curr);
+            return;
         }
+
+        curr.push_back(nums[idx]);
+        helper(idx + 1, nums, curr);
+
+        curr.pop_back();
+        helper(idx + 1, nums, curr);
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> curr;
+        helper(0, nums, curr);
         return ans;
     }
 };

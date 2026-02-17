@@ -13,7 +13,7 @@ public:
             for(int t=0;t<=amount;t++)
             {
                 int notTake=0+dp[ind-1][t];
-                int take=INT_MAX;
+                int take=1e9;
                 if(coins[ind]<=t){
                     take=1+dp[ind][t-coins[ind]];
                 }

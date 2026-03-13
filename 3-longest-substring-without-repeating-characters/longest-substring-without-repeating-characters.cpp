@@ -1,7 +1,7 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        unordered_map<char,int>freq;
+        vector<int>freq(256,0);
         int i=0,j=0,maxlen=0;
         int n=s.size();
 

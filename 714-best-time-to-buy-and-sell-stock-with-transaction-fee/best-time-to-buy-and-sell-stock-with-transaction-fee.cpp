@@ -3,7 +3,7 @@ public:
 
     int maxProfit(vector<int>& prices, int fee) {
         int n = prices.size();
-        vector<vector<int>> dp(n+1, vector<int>(2, 0));
+        vector<int>ahead(2,0), curr(2,0);
 
         if(n==0) return 0;
 
@@ -14,17 +14,18 @@ public:
             {
                 if(buy)
                 {
-                    profit=max(-prices[i]+dp[i+1][0], dp[i+1][1]);
+                    profit=max(-prices[i]+ahead[0], ahead[1]);
                 }
                 else
                 {
-                    profit=max(prices[i]+dp[i+1][1]-fee, dp[i+1][0]);
+                    profit=max(prices[i]+ahead[1]-fee, ahead[0]);
                 }
-                dp[i][buy]=profit;
+                curr[buy]=profit;
             }
+            ahead=curr;
             
         }
 
-        return dp[0][1];
+        return ahead[1];
     }
 };

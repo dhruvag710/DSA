@@ -4,7 +4,7 @@ public:
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
 
-        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
+        vector<int>ahead(n+1,0), cur(n+1,0);
 
         for(int curr = n-1; curr >= 0; curr--)
         {
@@ -14,15 +14,16 @@ public:
 
                 if(prev == -1 || nums[curr] > nums[prev])
                 {
-                    take = 1 + dp[curr+1][curr+1];
+                    take = 1 + ahead[curr+1];
                 }
 
-                int notTake = dp[curr+1][prev+1];
+                int notTake = ahead[prev+1];
 
-                dp[curr][prev+1] = max(take, notTake);
+                cur[prev+1] = max(take, notTake);
             }
+            ahead=cur;
         }
 
-        return dp[0][0];
+        return ahead[0];
     }
 };

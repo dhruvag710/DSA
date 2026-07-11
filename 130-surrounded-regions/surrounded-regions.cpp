@@ -1,69 +1,63 @@
 class Solution {
 public:
-    void solve(vector<vector<char>>& board) {
+    void dfs(int srow, int scol, vector<vector<char>>& board)
+    {
         int n=board.size();
         int m=board[0].size();
 
-        queue<pair<int,int>>q;
+        int row[]={0,1,0,-1};
+        int col[]={1,0,-1,0};
 
-        for(int i=0;i<n;i++)
+        for(int i=0;i<4;i++)
         {
-            if(board[i][0]=='O')
+            int nrow=srow+row[i];
+            int ncol=scol+col[i];
+
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && board[nrow][ncol]=='O')
             {
-                q.push({i,0});
-                board[i][0]='N';
+                board[nrow][ncol]='A';
+                dfs(nrow,ncol,board);
             }
-            if(board[i][m-1]=='O')
-            {
-                q.push({i,m-1});
-                board[i][m-1]='N';
-            }// N means we cannot capture it
         }
+    }
+
+    void solve(vector<vector<char>>& board) {
+        int n=board.size();
+        int m=board[0].size();
 
         for(int j=0;j<m;j++)
         {
             if(board[0][j]=='O')
             {
-                q.push({0,j});
-                board[0][j]='N';
-            }
-            if(board[n-1][j]=='O')
-            {
-                q.push({n-1,j});
-                board[n-1][j]='N';
+                board[0][j]='A';
+                dfs(0,j,board);
             }
         }
 
-
-        while(!q.empty())
+        for(int j=0;j<m;j++)
         {
-            int i=q.front().first;
-            int j=q.front().second;
-            q.pop();
-
-
-            if(i-1>=0 && board[i-1][j]=='O')
+            if(board[n-1][j]=='O')
             {
-                board[i-1][j]='N';
-                q.push({i-1,j});
+                board[n-1][j]='A';
+                dfs(n-1,j,board);
             }
+        }
 
-            if(j-1>=0 && board[i][j-1]=='O')
+        for(int i=1;i<n-1;i++)
+        {
+            if(board[i][0]=='O')
             {
-                board[i][j-1]='N';
-                q.push({i,j-1});
+                board[i][0]='A';
+                dfs(i,0,board);
             }
+        }
 
-            if(i+1<n && board[i+1][j]=='O')
+        for(int i=1;i<n-1;i++)
+        {
+            if(board[i][m-1]=='O')
             {
-                board[i+1][j]='N';
-                q.push({i+1,j});
-            }
-
-            if(j+1<m && board[i][j+1]=='O')
-            {
-                board[i][j+1]='N';
-                q.push({i,j+1});
+                board[i][m-1]='A';
+                dfs(i,m-1,board);
             }
         }
 
@@ -71,8 +65,8 @@ public:
         {
             for(int j=0;j<m;j++)
             {
-                if(board[i][j]=='N') board[i][j]='O';
-                else board[i][j]='X';
+                if(board[i][j]=='A') board[i][j]='O';
+                else if(board[i][j]=='O') board[i][j]='X';
             }
         }
     }

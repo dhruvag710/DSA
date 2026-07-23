@@ -1,50 +1,51 @@
 class Solution {
 public:
-    bool isCycle(int src, vector<vector<int>>& adj, vector<bool>& vis, vector<bool>& recPath,stack<int>& st) {
-        vis[src] = true;
-        recPath[src] = true;
+    vector<int> findOrder(int n, vector<vector<int>>& edges) {
+        vector<vector<int>>adj(n);
+        vector<int>inDegree(n,0);
 
-        for (int neigh : adj[src]) {
-            if (!vis[neigh]) {
-                if (isCycle(neigh, adj, vis,recPath, st))
-                    return true;
+        for(auto &edge: edges)
+        {
+            int course=edge[0];
+            int preReq=edge[1];
+
+            adj[preReq].push_back(course);
+            inDegree[course]++;
+        }
+
+        queue<int>q;
+
+        for(int i=0;i<n;i++)
+        {
+            if(inDegree[i]==0)
+            {
+                q.push(i);
             }
-            else if (recPath[neigh]) {
-                return true;
+
+        }
+
+        vector<int>ans;
+
+        while(!q.empty())
+        {
+            int node=q.front();
+            q.pop();
+
+            ans.push_back(node);
+            for(int neigh:adj[node])
+            {
+                inDegree[neigh]--;
+                if(inDegree[neigh]==0)
+            {
+                q.push(neigh);
             }
-        }
-        st.push(src);
-        recPath[src] = false;
-        return false;
-    }
-
-    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<vector<int>> adj(numCourses);
-
-        for (auto &edge : prerequisites) {
-            int course = edge[0];
-            int prereq = edge[1];
-
-            adj[prereq].push_back(course);
-        }
-        stack<int>st;
-        vector<bool> vis(numCourses, false);
-        vector<bool> recPath(numCourses, false);
-
-        for (int i = 0; i < numCourses; i++) {
-            if (!vis[i]) {
-                if (isCycle(i, adj, vis, recPath,st))
-                    return {};  
             }
+
+            
         }
 
-        vector<int> ans;
+        if(ans.size()==n) return ans;
 
-        while (!st.empty()) {
-            ans.push_back(st.top());
-            st.pop();
-        }
-
-        return ans;   
+        return {};
     }
 };

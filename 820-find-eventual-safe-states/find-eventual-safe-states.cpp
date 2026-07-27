@@ -21,16 +21,13 @@ return false;
 
     }
 
-
-
-
     vector<int> eventualSafeNodes(vector<vector<int>>& edges) {
         int n=edges.size();
         vector<int> vis(n,0);
         vector<int> pathVis(n,0);
         vector<int> check(n, 0);
 
-        stack<int>st;
+        
 
         for(int i=0;i<n;i++)
         {

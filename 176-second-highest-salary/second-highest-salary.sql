@@ -1,4 +1,4 @@
-# Write your MySQL query statement below
+-- Write your PostgreSQL query statement below
 WITH rank_salary AS(
     SELECT salary,
     DENSE_RANK() OVER (ORDER BY salary DESC) AS ranks

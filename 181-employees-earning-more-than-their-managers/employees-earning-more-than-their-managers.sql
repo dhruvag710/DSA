@@ -1,10 +1,5 @@
-WITH newTable as(
-    select e.id, e.name, e.salary, e.managerId, t.name as managerName, t.salary as managerSalary
-    from employee as e
-    left join employee as t
-    on e.managerId=t.id
-)
-
-SELECT name as Employee
-from newTable
-where salary>managerSalary;
+SELECT e.name AS Employee
+FROM Employee e
+JOIN Employee t
+    ON e.managerId = t.id
+WHERE e.salary > t.salary;
